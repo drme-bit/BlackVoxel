@@ -18,7 +18,6 @@
             --gray-medium: #2a2a2a;
             --gray-light: #cccccc;
             --accent: #00ff00;
-            --voxel-size: 16px;
         }
 
         * {
@@ -623,22 +622,21 @@
             });
         });
 
-        // Add parallax effect to hero section
+        // Add parallax effect to hero section with throttling
+        let ticking = false;
+        const hero = document.querySelector('.hero');
+        
         window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero');
-            if (hero) {
-                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+                    if (hero) {
+                        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+                    }
+                    ticking = false;
+                });
+                ticking = true;
             }
-        });
-
-        // Interactive voxel effects on mouse move
-        document.addEventListener('mousemove', (e) => {
-            const mouseX = e.clientX / window.innerWidth;
-            const mouseY = e.clientY / window.innerHeight;
-            
-            document.documentElement.style.setProperty('--mouse-x', mouseX);
-            document.documentElement.style.setProperty('--mouse-y', mouseY);
         });
 
         // Animate elements on scroll
